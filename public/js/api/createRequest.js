@@ -4,8 +4,6 @@
  * */
 const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest()
-	let index
-	try {
 		if (options.method === 'GET') {
 			options.url +=
 				'?mail=' + options.data.mail + '&password=' + options.data.password
