@@ -4,18 +4,13 @@
  * */
 const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest()
-		if (options.method === 'GET') {
-			options.url +=
-				'?mail=' + options.data.mail + '&password=' + options.data.password
-		} else {
-			const formData = new FormData()
-			formData.append('mail', options.data.mail)
-			formData.append('password', options.data.password)
-			index = formData
-		}
+	const data = new FormData()
+	data.append(options.data.mail)
+	data.append(options.data.password)
+	try {
 		xhr.open(options.method, options.url)
 		xhr.responseType = 'json'
-		xhr.send(index)
+		xhr.send(data)
 	} catch (e) {
 		options.callback(new Error(e))
 	}
