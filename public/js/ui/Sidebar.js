@@ -35,5 +35,9 @@ class Sidebar {
 			const modal = App.getModal('register')
 			modal.open()
 		})
+		login.addEventListener('click', () => {
+			const modal = App.getModal('login')
+			modal.open()
+		})
 	}
 }

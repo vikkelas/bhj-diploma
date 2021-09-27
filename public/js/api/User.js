@@ -11,7 +11,7 @@ class User {
 	static URL = '/user'
 	id = ''
 	static setCurrent(user) {
-		localStorage.setItem(user.id, user)
+		localStorage.setItem(user)
 	}
 
 	/**
@@ -59,7 +59,19 @@ class User {
 	 * сохранить пользователя через метод
 	 * User.setCurrent.
 	 * */
-	static register(data, callback) {}
+	static register(data, callback) {
+		createRequest({
+			url: this.url + '/register',
+			method: 'POST',
+			responseType: 'json',
+			data,
+			callback: (err, response){
+				if(response == response.success){
+
+				}
+			}
+		})
+	}
 
 	/**
 	 * Производит выход из приложения. После успешного
