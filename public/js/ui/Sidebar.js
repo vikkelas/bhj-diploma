@@ -39,5 +39,8 @@ class Sidebar {
 			const modal = App.getModal('login')
 			modal.open()
 		})
+		logout.addEventListener('click', () => {
+			User.logout()
+		})
 	}
 }

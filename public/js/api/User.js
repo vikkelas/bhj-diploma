@@ -12,7 +12,7 @@ class User {
 	 * */
 	static setCurrent(user) {
 		this.id = user.id
-		localStorage.setItem('user', JSON.stringify(user))
+		localStorage.setItem('user', JSON.stringify(this.user))
 	}
 
 	/**
@@ -25,7 +25,9 @@ class User {
 	 * Возвращает текущего авторизованного пользователя
 	 * из локального хранилища
 	 * */
-	static current() {}
+	static current() {
+		localStorage
+	}
 
 	/**
 	 * Получает информацию о текущем
@@ -62,7 +64,7 @@ class User {
 	 * */
 	static register(data, callback) {
 		createRequest({
-			url: this.url + '/register',
+			url: this.URL + '/register',
 			method: 'POST',
 			responseType: 'json',
 			data,
@@ -79,5 +81,17 @@ class User {
 	 * Производит выход из приложения. После успешного
 	 * выхода необходимо вызвать метод User.unsetCurrent
 	 * */
-	static logout(callback) {}
+	static logout(callback) {
+		createRequest({
+			url: this.URL + '/logout',
+			method: 'POST',
+			responseType: 'json',
+			callback: (err, response) => {
+				if (response.success === true) {
+					this.unsetCurrent()
+				}
+				callback(err, response)
+			},
+		})
+	}
 }
