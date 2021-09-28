@@ -12,7 +12,7 @@ class User {
 	 * */
 	static setCurrent(user) {
 		this.id = user.id
-		localStorage.setItem()
+		localStorage.setItem('user', JSON.stringify(user))
 	}
 
 	/**
