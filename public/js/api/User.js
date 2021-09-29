@@ -12,28 +12,43 @@ class User {
 	 * */
 	static setCurrent(user) {
 		this.id = user.id
-		localStorage.setItem('user', JSON.stringify(this.user))
+		localStorage.setItem('user', JSON.stringify(user))
 	}
 
 	/**
 	 * Удаляет информацию об авторизованном
 	 * пользователе из локального хранилища.
 	 * */
-	static unsetCurrent() {}
+	static unsetCurrent() {
+		localStorage.clear()
+	}
 
 	/**
 	 * Возвращает текущего авторизованного пользователя
 	 * из локального хранилища
 	 * */
 	static current() {
-		localStorage
+		return localStorage.removeItem('user')
 	}
 
 	/**
 	 * Получает информацию о текущем
 	 * авторизованном пользователе.
 	 * */
-	static fetch(callback) {}
+	static fetch(callback) {
+		createRequest({
+			url: URL + '/current',
+			method: 'GET',
+			callback: (err, response) => {
+				if (response.success) {
+					this.setCurrent()
+				} else {
+					this.unsetCurrent()
+				}
+				callback(err, response)
+			},
+		})
+	}
 
 	/**
 	 * Производит попытку авторизации.
@@ -45,10 +60,9 @@ class User {
 		createRequest({
 			url: this.URL + '/login',
 			method: 'POST',
-			responseType: 'json',
 			data,
 			callback: (err, response) => {
-				if (response && response.user) {
+				if (response.success) {
 					this.setCurrent(response.user)
 				}
 				callback(err, response)
@@ -66,10 +80,9 @@ class User {
 		createRequest({
 			url: this.URL + '/register',
 			method: 'POST',
-			responseType: 'json',
 			data,
 			callback: (err, response) => {
-				if (response.success === true) {
+				if (response.success) {
 					this.setCurrent(response.user)
 				}
 				callback(err, response)
@@ -85,9 +98,8 @@ class User {
 		createRequest({
 			url: this.URL + '/logout',
 			method: 'POST',
-			responseType: 'json',
 			callback: (err, response) => {
-				if (response.success === true) {
+				if (response.success) {
 					this.unsetCurrent()
 				}
 				callback(err, response)

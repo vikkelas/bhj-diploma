@@ -15,8 +15,6 @@ class RegisterForm extends AsyncForm {
 				App.setState('user-logged')
 				this.element.reset()
 				App.modals['register'].close()
-			} else {
-				console.log(err)
 			}
 		})
 	}
