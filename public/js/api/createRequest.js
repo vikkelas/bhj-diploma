@@ -4,21 +4,30 @@
  * */
 const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest()
+	const url = options.url
 	if (options.method === 'GET') {
-		options.url +=
-	} else {
-		const formData = new FormData()
-		formData.append('mail', options.data.mail)
-		formData.append('password', options.data.password)
+		url + options.data
 	}
 	try {
-		xhr.open(options.method, options.url)
+		xhr.open(options.method, url)
 		xhr.responseType = 'json'
-		xhr.send()
+		if (options.method !== 'GET') {
+			const formData = new FormData()
+			for (let i in options.data) {
+				formData.append(i, options.data[i])
+			}
+			xhr.send(formData)
+		} else {
+			xhr.send(options.data)
+		}
 	} catch (e) {
-		options.callback(new Error(e))
+		options.callback(new Error(e.message))
 	}
 	xhr.addEventListener('loadend', () => {
-		options.callback(null, xhr.response)
+		if (xhr.response.success === true) {
+			options.callback(null, xhr.response)
+		} else {
+			options.callback(xhr.response.error)
+		}
 	})
 }
