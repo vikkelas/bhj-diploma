@@ -6,7 +6,6 @@ const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest()
 	if (options.method === 'GET') {
 		options.url +=
-			'?mail=' + options.data.mail + '&password=' + options.data.password
 	} else {
 		const formData = new FormData()
 		formData.append('mail', options.data.mail)
