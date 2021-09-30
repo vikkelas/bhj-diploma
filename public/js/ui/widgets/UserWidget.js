@@ -15,7 +15,7 @@ class UserWidget {
 		if (element === undefined) {
 			throw new Error('предан пустой элемент')
 		}
-		console.log(element)
+		this.element = element
 	}
 
 	/**
