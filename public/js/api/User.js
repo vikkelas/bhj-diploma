@@ -27,10 +27,10 @@ class User {
 	 * из локального хранилища
 	 * */
 	static current() {
-		if (localStorage.getItem('user') === null) {
+		if (localStorage.user === null) {
 			return undefined
 		}
-		return localStorage.getItem('user')
+		return localStorage.user
 	}
 
 	/**

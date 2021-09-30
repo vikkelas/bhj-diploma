@@ -16,7 +16,6 @@ class UserWidget {
 			throw new Error('предан пустой элемент')
 		}
 		console.log(element)
-		this.element = element
 	}
 
 	/**
@@ -28,9 +27,9 @@ class UserWidget {
 	 * */
 	update() {
 		const user = JSON.parse(User.current())
+		const htmlUser = this.element.querySelector('.user-name')
 		if (user !== null) {
-			const name = document.querySelector('.user-name')
-			this.element = user.name
+			htmlUser.textContent = user.name
 		}
 	}
 }
