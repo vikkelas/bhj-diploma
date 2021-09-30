@@ -5,13 +5,12 @@
  * */
 class User {
 	static URL = '/user'
-	static id = ''
+
 	/**
 	 * Устанавливает текущего пользователя в
 	 * локальном хранилище.
 	 * */
 	static setCurrent(user) {
-		this.id = user.id
 		localStorage.setItem('user', JSON.stringify(user))
 	}
 
@@ -20,7 +19,7 @@ class User {
 	 * пользователе из локального хранилища.
 	 * */
 	static unsetCurrent() {
-		localStorage.clear()
+		localStorage.removeItem('user')
 	}
 
 	/**
@@ -28,7 +27,10 @@ class User {
 	 * из локального хранилища
 	 * */
 	static current() {
-		return localStorage.removeItem('user')
+		if (localStorage.getItem('user') === null) {
+			return undefined
+		}
+		return localStorage.getItem('user')
 	}
 
 	/**
@@ -41,7 +43,7 @@ class User {
 			method: 'GET',
 			callback: (err, response) => {
 				if (response.success) {
-					this.setCurrent()
+					this.setCurrent(response.user)
 				} else {
 					this.unsetCurrent()
 				}

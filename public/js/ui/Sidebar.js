@@ -17,7 +17,14 @@ class Sidebar {
 	 * переключает два класса для body: sidebar-open и sidebar-collapse
 	 * при нажатии на кнопку .sidebar-toggle
 	 * */
-	static initToggleButton() {}
+	static initToggleButton() {
+		const btnToggle = document.querySelector('.sidebar-toggle')
+		const body = document.querySelector('body')
+		btnToggle.addEventListener('click', e => {
+			e.preventDefault()
+			body.classList.toggle('sidebar-open')
+		})
+	}
 
 	/**
 	 * При нажатии на кнопку входа, показывает окно входа

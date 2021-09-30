@@ -24,7 +24,10 @@ class Modal {
 	registerEvents() {
 		const element = [...this.element.querySelectorAll("[data-dismiss='modal']")]
 		element.forEach(index =>
-			index.addEventListener('click', () => this.onClose())
+			index.addEventListener('click', e => {
+				e.preventDefault()
+				this.onClose()
+			})
 		)
 	}
 
