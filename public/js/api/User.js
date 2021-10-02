@@ -100,6 +100,7 @@ class User {
 		createRequest({
 			url: this.URL + '/logout',
 			method: 'POST',
+			data: JSON.parse(localStorage.user),
 			callback: (err, response) => {
 				if (response.success) {
 					this.unsetCurrent()
