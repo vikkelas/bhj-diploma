@@ -30,7 +30,7 @@ class AccountsWidget {
 		const btn = this.element.querySelector('.create-account')
 		btn.addEventListener('click', e => {
 			e.preventDefault()
-			const modal = App.getModal('#modal-new-account')
+			const modal = App.getModal('createAccount')
 			modal.open()
 			this.onSelectAccount()
 		})
@@ -46,14 +46,32 @@ class AccountsWidget {
 	 * Отображает список полученных счетов с помощью
 	 * метода renderItem()
 	 * */
-	update() {}
+	update() {
+		const user = JSON.parse(User.current())
+
+		if (user) {
+			Account.list(user, (err, response) => {
+				if (response.success) {
+					this.clear()
+					response.data.forEach(element => {
+						this.renderItem(element)
+					})
+				}
+			})
+		}
+	}
 
 	/**
 	 * Очищает список ранее отображённых счетов.
 	 * Для этого необходимо удалять все элементы .account
 	 * в боковой колонке
 	 * */
-	clear() {}
+	clear() {
+		const account = [...document.querySelectorAll('.account')]
+		account.forEach(element => {
+			element.remove()
+		})
+	}
 
 	/**
 	 * Срабатывает в момент выбора счёта
@@ -69,7 +87,16 @@ class AccountsWidget {
 	 * отображения в боковой колонке.
 	 * item - объект с данными о счёте
 	 * */
-	getAccountHTML(item) {}
+	getAccountHTML(item) {
+		return `html
+<li class="active account" data-id="${item.id}">
+    <a href="#">
+        <span>${item.name}</span> /
+        <span>${item.sum} ₽</span>
+    </a>
+</li>
+`
+	}
 
 	/**
 	 * Получает массив с информацией о счетах.
@@ -77,5 +104,7 @@ class AccountsWidget {
 	 * AccountsWidget.getAccountHTML HTML-код элемента
 	 * и добавляет его внутрь элемента виджета
 	 * */
-	renderItem(data) {}
+	renderItem(data) {
+		this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(data))
+	}
 }

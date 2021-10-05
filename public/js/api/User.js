@@ -39,7 +39,7 @@ class User {
 	 * */
 	static fetch(callback) {
 		createRequest({
-			url: URL + '/current',
+			url: this.URL + '/current',
 			method: 'GET',
 			callback: (err, response) => {
 				if (response.success) {

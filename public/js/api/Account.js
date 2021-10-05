@@ -5,10 +5,12 @@
  * */
 class Account extends Entity {
 	static URL = '/account'
-	static get() {
-		createRequest()
+
+	/**
+	 * Получает информацию о счёте
+	 * */
+
+	static get(id = '', callback) {
+		createRequest({})
 	}
 }
-/**
- * Получает информацию о счёте
- * */
