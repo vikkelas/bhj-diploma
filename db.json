@@ -165,6 +165,86 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "cnd8zkozokufy4kb8",
+      "type": "income",
+      "name": "qwer",
+      "sum": 11111,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:11:04.531Z"
+    },
+    {
+      "id": "cnd8zknngkufy8vwb",
+      "type": "income",
+      "name": "Sergey",
+      "sum": 777,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:14:26.170Z"
+    },
+    {
+      "id": "cnd8zk3ygkufybizk",
+      "type": "income",
+      "name": "Sergey",
+      "sum": 4444,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:16:29.407Z"
+    },
+    {
+      "id": "cnd8zko7ckufyctxc",
+      "type": "income",
+      "name": "Сергей",
+      "sum": 55,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:17:30.239Z"
+    },
+    {
+      "id": "cnd8zkejgkufyfxsk",
+      "type": "income",
+      "name": "d",
+      "sum": 3,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:19:55.219Z"
+    },
+    {
+      "id": "cnd8zk4ngkufyoigp",
+      "type": "income",
+      "name": "ss",
+      "sum": 3,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:26:35.256Z"
+    },
+    {
+      "id": "cnd8zkl1ckufyqf5j",
+      "type": "income",
+      "name": "Сергей Латышев",
+      "sum": 2333,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:28:04.278Z"
+    },
+    {
+      "id": "cnd8zklqwkufyrgfn",
+      "type": "income",
+      "name": "Сергей Латышев",
+      "sum": 56,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:28:52.594Z"
+    },
+    {
+      "id": "cnd8zko4kkufys43a",
+      "type": "income",
+      "name": "w",
+      "sum": 2,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:29:23.253Z"
+    },
+    {
+      "id": "cnd8zkowskufyswqn",
+      "type": "income",
+      "name": "s",
+      "sum": 33,
+      "user_id": "1",
+      "created_at": "2021-10-06T20:30:00.382Z"
     }
   ]
 }
