@@ -24,5 +24,17 @@ class TransactionsWidget {
 	 * При нажатии вызывает Modal.open() для
 	 * экземпляра окна
 	 * */
-	registerEvents() {}
+	registerEvents() {
+		const btnIncome = this.element.querySelector('.create-income-button')
+		btnIncome.addEventListener('click', e => {
+			e.preventDefault()
+			App.getModal('newIncome').open()
+		})
+
+		const btnExpense = this.element.querySelector('.create-expense-button')
+		btnExpense.addEventListener('click', e => {
+			e.preventDefault()
+			App.getModal('newExpense').open()
+		})
+	}
 }
