@@ -38,7 +38,7 @@ class AccountsWidget {
 		})
 		this.element.addEventListener('click', e => {
 			const item = e.target.closest('.account')
-			console.log(item)
+			this.onSelectAccount(item)
 		})
 	}
 
@@ -87,8 +87,13 @@ class AccountsWidget {
 	 * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
 	 * */
 	onSelectAccount(element) {
-		const user = JSON.parse(User.current())
-		console.log(user)
+		const itemActive = element.closest('ul').querySelector('.active')
+		if (itemActive !== null) {
+			itemActive.classList.remove('active')
+		}
+		console.log(element)
+		element.classList.add('active')
+		App.showPage('transactions')
 	}
 
 	/**
