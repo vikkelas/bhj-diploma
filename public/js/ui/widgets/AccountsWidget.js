@@ -14,6 +14,9 @@ class AccountsWidget {
 	 * необходимо выкинуть ошибку.
 	 * */
 	constructor(element) {
+		if (element === undefined) {
+			throw new Error('предан пустой элемент')
+		}
 		this.element = element
 		this.registerEvents()
 		this.update()
@@ -32,7 +35,10 @@ class AccountsWidget {
 			e.preventDefault()
 			const modal = App.getModal('createAccount')
 			modal.open()
-			this.onSelectAccount()
+		})
+		this.element.addEventListener('click', e => {
+			const item = e.target.closest('.account')
+			console.log(item)
 		})
 	}
 
@@ -80,7 +86,10 @@ class AccountsWidget {
 	 * счёта класс .active.
 	 * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
 	 * */
-	onSelectAccount(element) {}
+	onSelectAccount(element) {
+		const user = JSON.parse(User.current())
+		console.log(user)
+	}
 
 	/**
 	 * Возвращает HTML-код счёта для последующего
@@ -88,8 +97,8 @@ class AccountsWidget {
 	 * item - объект с данными о счёте
 	 * */
 	getAccountHTML(item) {
-		return `html
-<li class="active account" data-id="${item.id}">
+		return `
+<li class="account" data-id="${item.id}">
     <a href="#">
         <span>${item.name}</span> /
         <span>${item.sum} ₽</span>
