@@ -17,7 +17,7 @@ class CreateTransactionForm extends AsyncForm {
 	 * Обновляет в форме всплывающего окна выпадающий список
 	 * */
 	renderAccountsList() {
-		const user = JSON.parse(localStorage.user)
+		const user = User.current()
 		const selectForm = this.element.querySelector('.accounts-select')
 		let index = ''
 		Account.list(user, (err, response) => {

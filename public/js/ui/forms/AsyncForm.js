@@ -38,11 +38,11 @@ class AsyncForm {
 	 * }
 	 * */
 	getData() {
-		const data = {}
-		const input = [...this.element.querySelectorAll('input')]
-		for (let i = 0; i < input.length; i++) {
-			data[input[i].getAttribute('name')] = input[i].value
-		}
+		let data = {}
+		const item = [...new FormData(this.element).entries()]
+		item.forEach(element => {
+			data[element[0]] = element[1]
+		})
 		return data
 	}
 

@@ -38,7 +38,9 @@ class AccountsWidget {
 		})
 		this.element.addEventListener('click', e => {
 			const item = e.target.closest('.account')
-			this.onSelectAccount(item)
+			if (item !== null) {
+				this.onSelectAccount(item)
+			}
 		})
 	}
 
@@ -53,7 +55,7 @@ class AccountsWidget {
 	 * метода renderItem()
 	 * */
 	update() {
-		const user = JSON.parse(User.current())
+		const user = User.current()
 
 		if (user) {
 			Account.list(user, (err, response) => {
@@ -91,9 +93,8 @@ class AccountsWidget {
 		if (itemActive !== null) {
 			itemActive.classList.remove('active')
 		}
-		console.log(element)
 		element.classList.add('active')
-		App.showPage('transactions')
+		App.showPage('transactions', { account_id: element.dataset.id })
 	}
 
 	/**

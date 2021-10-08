@@ -10,15 +10,23 @@ class TransactionsPage {
 	 * Сохраняет переданный элемент и регистрирует события
 	 * через registerEvents()
 	 * */
-	constructor(element) {}
+	constructor(element) {
+		if (element === null) {
+			throw new Error('предан пустой элемент')
+		}
+		this.element = element
+		this.registerEvents()
+	}
 
 	/**
 	 * Вызывает метод render для отрисовки страницы
 	 * */
-	update() {}
+	update() {
+		this.render()
+	}
 
 	/**
-	 * Отслеживает нажатие на кнопку удаления транзакции
+	 * Отслеживает нажатие на кнопку удаления тран закции
 	 * и удаления самого счёта. Внутри обработчика пользуйтесь
 	 * методами TransactionsPage.removeTransaction и
 	 * TransactionsPage.removeAccount соответственно
@@ -50,7 +58,20 @@ class TransactionsPage {
 	 * Получает список Transaction.list и полученные данные передаёт
 	 * в TransactionsPage.renderTransactions()
 	 * */
-	render(options) {}
+	render(options) {
+		if (options) {
+			console.log(options)
+			this.lastOptions = options
+			Account.get(options['account_id'], (err, response) => {
+				if (response.success) {
+					this.renderTitle(response.data.name)
+				}
+			})
+			Transaction.list(options, (err, response) => {
+				this.renderTransactions(response.data)
+			})
+		}
+	}
 
 	/**
 	 * Очищает страницу. Вызывает
