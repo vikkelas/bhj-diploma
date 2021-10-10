@@ -4,14 +4,18 @@
  * */
 const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest()
-	const url = options.url
+	let url = options.url
 	const formData = new FormData()
 	for (let i in options.data) {
 		formData.append(i, options.data[i])
 	}
 
 	if (options.method === 'GET') {
-		url + options.data
+		let addUrl
+		for (key in options.data) {
+			addUrl = key + '=' + options.data[key]
+		}
+		url += '?' + addUrl
 	}
 
 	try {

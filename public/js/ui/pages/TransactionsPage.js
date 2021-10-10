@@ -11,6 +11,7 @@ class TransactionsPage {
 	 * через registerEvents()
 	 * */
 	constructor(element) {
+		console.log(element)
 		if (element === null) {
 			throw new Error('предан пустой элемент')
 		}
@@ -22,7 +23,7 @@ class TransactionsPage {
 	 * Вызывает метод render для отрисовки страницы
 	 * */
 	update() {
-		this.render()
+		this.render(this.lastOptions)
 	}
 
 	/**
@@ -31,7 +32,10 @@ class TransactionsPage {
 	 * методами TransactionsPage.removeTransaction и
 	 * TransactionsPage.removeAccount соответственно
 	 * */
-	registerEvents() {}
+	registerEvents() {
+		const removeAcc = this.element.querySelector('.remove-account')
+		removeAcc.addEventListener('click', () => this.removeAccount())
+	}
 
 	/**
 	 * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
@@ -42,7 +46,19 @@ class TransactionsPage {
 	 * либо обновляйте только виджет со счетами
 	 * для обновления приложения
 	 * */
-	removeAccount() {}
+	removeAccount() {
+		if (this.lastOptions === null) {
+			return
+		}
+		let answer = confirm('Вы хотите удалить счет?')
+		if (answer === true) {
+			Account.remove(this.lastOptions, (err, response) => {
+				if (response.success) {
+					App.updateWidgets()
+				}
+			})
+		}
+	}
 
 	/**
 	 * Удаляет транзакцию (доход или расход). Требует
@@ -60,8 +76,8 @@ class TransactionsPage {
 	 * */
 	render(options) {
 		if (options) {
-			console.log(options)
 			this.lastOptions = options
+			console.log(this.lastOptions)
 			Account.get(options['account_id'], (err, response) => {
 				if (response.success) {
 					this.renderTitle(response.data.name)
@@ -78,28 +94,84 @@ class TransactionsPage {
 	 * TransactionsPage.renderTransactions() с пустым массивом.
 	 * Устанавливает заголовок: «Название счёта»
 	 * */
-	clear() {}
+	clear() {
+		this.renderTransactions([])
+		this.renderTitle('Название счёта')
+		this.lastOptions = null
+	}
 
 	/**
 	 * Устанавливает заголовок в элемент .content-title
 	 * */
-	renderTitle(name) {}
+	renderTitle(name) {
+		const accountTitle = this.element.querySelector('.content-title')
+		accountTitle.innerHTML = name
+	}
 
 	/**
 	 * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
 	 * в формат «10 марта 2019 г. в 03:20»
 	 * */
-	formatDate(date) {}
+	formatDate(date) {
+		const dateString = new Date(date)
+		const mothRus = {
+			0: 'января',
+			1: 'февраля',
+			2: 'марта',
+			3: 'апреля',
+			4: 'майя',
+			5: 'июня',
+			6: 'июля',
+			7: 'августа',
+			8: 'сентября',
+			9: 'октября',
+			10: 'ноября',
+			11: 'декабря',
+		}
+		let dateRus = `${dateString.getDate()} ${
+			mothRus[dateString.getMonth()]
+		} ${dateString.getFullYear()} г. в ${dateString.toLocaleTimeString()}`
+		return dateRus
+	}
 
 	/**
 	 * Формирует HTML-код транзакции (дохода или расхода).
 	 * item - объект с информацией о транзакции
 	 * */
-	getTransactionHTML(item) {}
+	getTransactionHTML(item) {
+		let htmlElement = `<div class="transaction transaction_${item.type} row">
+		<div class="col-md-7 transaction__details">
+		  <div class="transaction__icon">
+				<span class="fa fa-money fa-2x"></span>
+		  </div>
+		  <div class="transaction__info">
+				<h4 class="transaction__title">${item.name}</h4>
+				<!-- дата -->
+				<div class="transaction__date">${this.formatDate(item.created_at)}</div>
+		  </div>
+		</div>
+		<div class="col-md-3">
+		  <div class="transaction__summ">${item.sum}<span class="currency">₽</span>
+		  </div>
+		</div>
+		<div class="col-md-2 transaction__controls">
+			 <!-- в data-id нужно поместить id -->
+			 <button class="btn btn-danger transaction__remove" data-id=${item.id}>
+				  <i class="fa fa-trash"></i>  
+			 </button>
+		</div>
+  </div>`
+		return htmlElement
+	}
 
 	/**
 	 * Отрисовывает список транзакций на странице
 	 * используя getTransactionHTML
 	 * */
-	renderTransactions(data) {}
+	renderTransactions(data) {
+		let pageContent = this.element.querySelector('.content')
+		data.forEach(element => {
+			pageContent.innerHTML += this.getTransactionHTML(element)
+		})
+	}
 }

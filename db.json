@@ -28,6 +28,21 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "qwer",
+      "user_id": "zzgku8oyvwa",
+      "id": "cnd8zk1ip0kuiwzq8x"
+    },
+    {
+      "name": ",fyr",
+      "user_id": "1",
+      "id": "cnd8zk1l7okul6fy2l"
+    },
+    {
+      "name": "123",
+      "user_id": "1",
+      "id": "cnd8zk1zeokul71dbh"
     }
   ],
   "transactions": [
@@ -165,6 +180,6 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
-    }    
+    }
   ]
 }
