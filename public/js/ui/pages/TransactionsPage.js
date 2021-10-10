@@ -11,7 +11,6 @@ class TransactionsPage {
 	 * через registerEvents()
 	 * */
 	constructor(element) {
-		console.log(element)
 		if (element === null) {
 			throw new Error('предан пустой элемент')
 		}
@@ -34,7 +33,17 @@ class TransactionsPage {
 	 * */
 	registerEvents() {
 		const removeAcc = this.element.querySelector('.remove-account')
+		const removeTran = this.element.querySelector('.content')
 		removeAcc.addEventListener('click', () => this.removeAccount())
+		removeTran.addEventListener('click', e => {
+			if (e.target.classList.contains('transaction__remove')) {
+				this.removeTransaction(e.target.dataset['id'])
+			} else if (e.target.closest('.transaction__remove')) {
+				this.removeTransaction(
+					e.target.closest('.transaction__remove').dataset['id']
+				)
+			}
+		})
 	}
 
 	/**
@@ -52,10 +61,13 @@ class TransactionsPage {
 		}
 		let answer = confirm('Вы хотите удалить счет?')
 		if (answer === true) {
-			Account.remove(this.lastOptions, (err, response) => {
-				if (response.success) {
-					App.updateWidgets()
-				}
+			Account.get(this.lastOptions.account_id, (err, response) => {
+				this.clear()
+				Account.remove(response.data, (err, response) => {
+					if (response.success) {
+						App.updateWidgets()
+					}
+				})
 			})
 		}
 	}
@@ -66,7 +78,15 @@ class TransactionsPage {
 	 * По удалению транзакции вызовите метод App.update(),
 	 * либо обновляйте текущую страницу (метод update) и виджет со счетами
 	 * */
-	removeTransaction(id) {}
+	removeTransaction(id) {
+		if (confirm('Удалить транзакцию?')) {
+			Transaction.remove({ id }, (err, response) => {
+				if (response.success) {
+					App.update()
+				}
+			})
+		}
+	}
 
 	/**
 	 * С помощью Account.get() получает название счёта и отображает
@@ -77,7 +97,6 @@ class TransactionsPage {
 	render(options) {
 		if (options) {
 			this.lastOptions = options
-			console.log(this.lastOptions)
 			Account.get(options['account_id'], (err, response) => {
 				if (response.success) {
 					this.renderTitle(response.data.name)
@@ -170,6 +189,7 @@ class TransactionsPage {
 	 * */
 	renderTransactions(data) {
 		let pageContent = this.element.querySelector('.content')
+		pageContent.innerHTML = ''
 		data.forEach(element => {
 			pageContent.innerHTML += this.getTransactionHTML(element)
 		})
